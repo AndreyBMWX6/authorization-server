@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package authorization_server;
+
+option go_package="github.com/AndreyBMWX6/authorization-server/pkg/api/authorization_server;authorization_server";
+
+import "google/api/annotations.proto";
+
+service AuthorizationServer {
+  rpc RegisterClient(RegisterClientRequest) returns (RegisterClientResponse) {
+    option (google.api.http) = {
+      post: "/register",
+      body: "*"
+    };
+  }
+}
+
+message RegisterClientRequest {
+  string name = 1;
+  string url = 2;
+  string redirect_uri = 3;
+}
+
+message RegisterClientResponse {
+  string client_id = 1;
+  string client_secret = 2;
+}

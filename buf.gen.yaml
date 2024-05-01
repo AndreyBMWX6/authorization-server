@@ -1,0 +1,25 @@
+version: v1
+
+# We will use local plugins installed via `make bin-deps`
+# You can use remote plugins stored in BSR (Buf schema registry)
+# BSR is blocked in Russia, you can use it in other country or via VPN :)
+# Search plugins in BSR: https://buf.build/explore
+
+plugins:
+# For local plugins prefix "protoc-gen-" is ommited
+  - plugin: go
+#  - plugin: buf.build/protocolbuffers/go:v1.34.0
+    out: pkg/api
+    opt: paths=source_relative
+  - plugin: go-grpc
+#  - plugin: buf.build/grpc/go:v1.3.0
+    out: pkg/api
+    opt: paths=source_relative
+  - plugin: grpc-gateway
+#  - plugin: buf.build/grpc-ecosystem/gateway:v2.19.1
+    out: pkg/api
+    opt: paths=source_relative
+  - plugin: openapiv2
+#  - plugin: buf.build/grpc-ecosystem/openapiv2:v2.19.1
+    out: pkg/api
+    opt: generate_unbound_methods=true

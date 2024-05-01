@@ -1,0 +1,16 @@
+version: v1beta1
+build:
+  excludes:
+    - 'vendor.proto/*'
+  roots:
+    - api
+    - vendor.proto
+
+breaking:
+  use:
+    - FILE
+  ignore:
+    - vendor.proto
+lint:
+  use:
+    - DEFAULT
