@@ -22,7 +22,10 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type AuthorizationServerClient interface {
+	// RegisterClient registers new client
 	RegisterClient(ctx context.Context, in *RegisterClientRequest, opts ...grpc.CallOption) (*RegisterClientResponse, error)
+	GetAuthorizationCode(ctx context.Context, in *GetAuthorizationCodeRequest, opts ...grpc.CallOption) (*GetAuthorizationCodeResponse, error)
+	GetAccessToken(ctx context.Context, in *GetAccessTokenRequest, opts ...grpc.CallOption) (*GetAccessTokenResponse, error)
 }
 
 type authorizationServerClient struct {
@@ -42,11 +45,32 @@ func (c *authorizationServerClient) RegisterClient(ctx context.Context, in *Regi
 	return out, nil
 }
 
+func (c *authorizationServerClient) GetAuthorizationCode(ctx context.Context, in *GetAuthorizationCodeRequest, opts ...grpc.CallOption) (*GetAuthorizationCodeResponse, error) {
+	out := new(GetAuthorizationCodeResponse)
+	err := c.cc.Invoke(ctx, "/authorization_server.AuthorizationServer/GetAuthorizationCode", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *authorizationServerClient) GetAccessToken(ctx context.Context, in *GetAccessTokenRequest, opts ...grpc.CallOption) (*GetAccessTokenResponse, error) {
+	out := new(GetAccessTokenResponse)
+	err := c.cc.Invoke(ctx, "/authorization_server.AuthorizationServer/GetAccessToken", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AuthorizationServerServer is the server API for AuthorizationServer service.
 // All implementations must embed UnimplementedAuthorizationServerServer
 // for forward compatibility
 type AuthorizationServerServer interface {
+	// RegisterClient registers new client
 	RegisterClient(context.Context, *RegisterClientRequest) (*RegisterClientResponse, error)
+	GetAuthorizationCode(context.Context, *GetAuthorizationCodeRequest) (*GetAuthorizationCodeResponse, error)
+	GetAccessToken(context.Context, *GetAccessTokenRequest) (*GetAccessTokenResponse, error)
 	mustEmbedUnimplementedAuthorizationServerServer()
 }
 
@@ -56,6 +80,12 @@ type UnimplementedAuthorizationServerServer struct {
 
 func (UnimplementedAuthorizationServerServer) RegisterClient(context.Context, *RegisterClientRequest) (*RegisterClientResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RegisterClient not implemented")
+}
+func (UnimplementedAuthorizationServerServer) GetAuthorizationCode(context.Context, *GetAuthorizationCodeRequest) (*GetAuthorizationCodeResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAuthorizationCode not implemented")
+}
+func (UnimplementedAuthorizationServerServer) GetAccessToken(context.Context, *GetAccessTokenRequest) (*GetAccessTokenResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAccessToken not implemented")
 }
 func (UnimplementedAuthorizationServerServer) mustEmbedUnimplementedAuthorizationServerServer() {}
 
@@ -88,6 +118,42 @@ func _AuthorizationServer_RegisterClient_Handler(srv interface{}, ctx context.Co
 	return interceptor(ctx, in, info, handler)
 }
 
+func _AuthorizationServer_GetAuthorizationCode_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAuthorizationCodeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthorizationServerServer).GetAuthorizationCode(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/authorization_server.AuthorizationServer/GetAuthorizationCode",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthorizationServerServer).GetAuthorizationCode(ctx, req.(*GetAuthorizationCodeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AuthorizationServer_GetAccessToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAccessTokenRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthorizationServerServer).GetAccessToken(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/authorization_server.AuthorizationServer/GetAccessToken",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthorizationServerServer).GetAccessToken(ctx, req.(*GetAccessTokenRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // AuthorizationServer_ServiceDesc is the grpc.ServiceDesc for AuthorizationServer service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -98,6 +164,14 @@ var AuthorizationServer_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "RegisterClient",
 			Handler:    _AuthorizationServer_RegisterClient_Handler,
+		},
+		{
+			MethodName: "GetAuthorizationCode",
+			Handler:    _AuthorizationServer_GetAuthorizationCode_Handler,
+		},
+		{
+			MethodName: "GetAccessToken",
+			Handler:    _AuthorizationServer_GetAccessToken_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

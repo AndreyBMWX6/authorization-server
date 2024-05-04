@@ -84,7 +84,7 @@ func (a *App) initHTTP() {
 	a.httpServer = runtime.NewServeMux()
 	err := a.desc.RegisterGateway(context.Background(), a.httpServer)
 	if err != nil {
-		log.Fatalf("failed to refister gateway")
+		log.Fatalf("failed to register gateway")
 	}
 	//todo:добавить swagger UI
 }

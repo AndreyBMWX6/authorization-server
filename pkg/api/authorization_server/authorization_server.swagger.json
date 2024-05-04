@@ -16,8 +16,69 @@
     "application/json"
   ],
   "paths": {
+    "/auth": {
+      "get": {
+        "operationId": "AuthorizationServer_GetAuthorizationCode",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/authorization_serverGetAuthorizationCodeResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "responseType",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "RESPONSE_TYPE_CODE",
+              "RESPONSE_TYPE_TOKEN"
+            ],
+            "default": "RESPONSE_TYPE_CODE"
+          },
+          {
+            "name": "clientId",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "redirectUri",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "scope",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "state",
+            "description": "state recommended to prevent CSRF attacks",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "AuthorizationServer"
+        ]
+      }
+    },
     "/register": {
       "post": {
+        "summary": "RegisterClient registers new client",
         "operationId": "AuthorizationServer_RegisterClient",
         "responses": {
           "200": {
@@ -47,9 +108,112 @@
           "AuthorizationServer"
         ]
       }
+    },
+    "/token": {
+      "post": {
+        "operationId": "AuthorizationServer_GetAccessToken",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/authorization_serverGetAccessTokenResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "grantType",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "GRANT_TYPE_AUTHORIZATION_CODE"
+            ],
+            "default": "GRANT_TYPE_AUTHORIZATION_CODE"
+          },
+          {
+            "name": "code",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "redirectUri",
+            "description": "required if was included in GetAuthorizationCodeRequest\nvalue must be identical to value included in GetAuthorizationCodeRequest",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "clientId",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "clientSecret",
+            "description": "client_secret send if authorizing server-side client",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "AuthorizationServer"
+        ]
+      }
     }
   },
   "definitions": {
+    "authorization_serverGetAccessTokenResponse": {
+      "type": "object",
+      "properties": {
+        "accessToken": {
+          "type": "string"
+        },
+        "tokenType": {
+          "type": "string",
+          "description": "bearer/mac/etc."
+        },
+        "expiresIn": {
+          "type": "string",
+          "format": "int64",
+          "title": "expires_in could be omitted,\nbut should be provided to client by other means or be documented as default value"
+        },
+        "refreshToken": {
+          "type": "string"
+        },
+        "scope": {
+          "type": "string",
+          "title": "scope is optional if identical to the scope requested by the client, otherwise, required"
+        }
+      }
+    },
+    "authorization_serverGetAuthorizationCodeResponse": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string"
+        },
+        "state": {
+          "type": "string",
+          "title": "state recommended to prevent CSRF attacks"
+        }
+      }
+    },
+    "authorization_serverGrantType": {
+      "type": "string",
+      "enum": [
+        "GRANT_TYPE_AUTHORIZATION_CODE"
+      ],
+      "default": "GRANT_TYPE_AUTHORIZATION_CODE"
+    },
     "authorization_serverRegisterClientRequest": {
       "type": "object",
       "properties": {
@@ -74,6 +238,14 @@
           "type": "string"
         }
       }
+    },
+    "authorization_serverResponseType": {
+      "type": "string",
+      "enum": [
+        "RESPONSE_TYPE_CODE",
+        "RESPONSE_TYPE_TOKEN"
+      ],
+      "default": "RESPONSE_TYPE_CODE"
     },
     "protobufAny": {
       "type": "object",
