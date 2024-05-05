@@ -37,5 +37,5 @@ func (u *UseCase) Register(ctx context.Context, client *domain.Client) (*domain.
 		return nil, errors.Wrap(err, "insert client")
 	}
 
-	return nil, nil
+	return client, nil
 }
