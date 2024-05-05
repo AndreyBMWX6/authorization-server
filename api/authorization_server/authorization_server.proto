@@ -61,6 +61,7 @@ message GetAuthorizationCodeResponse {
 
 enum GrantType {
   GRANT_TYPE_AUTHORIZATION_CODE = 0;
+  GRANT_TYPE_REFRESH_TOKEN = 1;
 }
 
 message GetAccessTokenRequest {
@@ -72,6 +73,9 @@ message GetAccessTokenRequest {
   string client_id = 4;
   // client_secret send if authorizing server-side client
   optional string client_secret = 5;
+  // refresh_token is required if refresh token grant type specified
+  // allows to get new access token
+  optional string refresh_token = 6;
 }
 
 message GetAccessTokenResponse {

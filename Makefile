@@ -20,6 +20,7 @@ bin-deps:
 
 deps:
 	go mod download
+	go mod tidy
 
 # TODO: найти или написать нормальную вендорилку прото
 vendor-proto:

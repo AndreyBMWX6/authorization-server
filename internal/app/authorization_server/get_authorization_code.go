@@ -2,7 +2,8 @@ package authorization_server
 
 import (
 	"context"
-	"errors"
+
+	"github.com/pkg/errors"
 
 	desc "authorization-server/pkg/api/authorization_server"
 )

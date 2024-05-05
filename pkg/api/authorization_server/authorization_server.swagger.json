@@ -133,7 +133,8 @@
             "required": false,
             "type": "string",
             "enum": [
-              "GRANT_TYPE_AUTHORIZATION_CODE"
+              "GRANT_TYPE_AUTHORIZATION_CODE",
+              "GRANT_TYPE_REFRESH_TOKEN"
             ],
             "default": "GRANT_TYPE_AUTHORIZATION_CODE"
           },
@@ -159,6 +160,13 @@
           {
             "name": "clientSecret",
             "description": "client_secret send if authorizing server-side client",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "refreshToken",
+            "description": "refresh_token is required if refresh token grant type specified\nallows to get new access token",
             "in": "query",
             "required": false,
             "type": "string"
@@ -210,7 +218,8 @@
     "authorization_serverGrantType": {
       "type": "string",
       "enum": [
-        "GRANT_TYPE_AUTHORIZATION_CODE"
+        "GRANT_TYPE_AUTHORIZATION_CODE",
+        "GRANT_TYPE_REFRESH_TOKEN"
       ],
       "default": "GRANT_TYPE_AUTHORIZATION_CODE"
     },
