@@ -1,7 +1,11 @@
 package domain
 
+import (
+	"github.com/google/uuid"
+)
+
 type Client struct {
-	ID          string
+	ID          uuid.UUID
 	Name        string
 	URL         string
 	RedirectURI string

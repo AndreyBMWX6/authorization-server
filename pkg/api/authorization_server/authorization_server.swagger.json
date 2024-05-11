@@ -16,7 +16,7 @@
     "application/json"
   ],
   "paths": {
-    "/auth": {
+    "/authorization/auth": {
       "get": {
         "operationId": "AuthorizationServer_GetAuthorizationCode",
         "responses": {
@@ -40,10 +40,10 @@
             "required": false,
             "type": "string",
             "enum": [
-              "RESPONSE_TYPE_CODE",
-              "RESPONSE_TYPE_TOKEN"
+              "code",
+              "token"
             ],
-            "default": "RESPONSE_TYPE_CODE"
+            "default": "code"
           },
           {
             "name": "clientId",
@@ -76,7 +76,7 @@
         ]
       }
     },
-    "/register": {
+    "/authorization/register": {
       "post": {
         "summary": "RegisterClient registers new client",
         "operationId": "AuthorizationServer_RegisterClient",
@@ -109,7 +109,7 @@
         ]
       }
     },
-    "/token": {
+    "/authrization/token": {
       "post": {
         "operationId": "AuthorizationServer_GetAccessToken",
         "responses": {
@@ -133,10 +133,10 @@
             "required": false,
             "type": "string",
             "enum": [
-              "GRANT_TYPE_AUTHORIZATION_CODE",
-              "GRANT_TYPE_REFRESH_TOKEN"
+              "authorization_code",
+              "refresh_token"
             ],
-            "default": "GRANT_TYPE_AUTHORIZATION_CODE"
+            "default": "authorization_code"
           },
           {
             "name": "code",
@@ -218,10 +218,10 @@
     "authorization_serverGrantType": {
       "type": "string",
       "enum": [
-        "GRANT_TYPE_AUTHORIZATION_CODE",
-        "GRANT_TYPE_REFRESH_TOKEN"
+        "authorization_code",
+        "refresh_token"
       ],
-      "default": "GRANT_TYPE_AUTHORIZATION_CODE"
+      "default": "authorization_code"
     },
     "authorization_serverRegisterClientRequest": {
       "type": "object",
@@ -251,10 +251,10 @@
     "authorization_serverResponseType": {
       "type": "string",
       "enum": [
-        "RESPONSE_TYPE_CODE",
-        "RESPONSE_TYPE_TOKEN"
+        "code",
+        "token"
       ],
-      "default": "RESPONSE_TYPE_CODE"
+      "default": "code"
     },
     "protobufAny": {
       "type": "object",

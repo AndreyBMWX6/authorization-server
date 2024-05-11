@@ -1,3 +1,4 @@
 /bin
 /vendor.proto
 /.idea
+secrets.go

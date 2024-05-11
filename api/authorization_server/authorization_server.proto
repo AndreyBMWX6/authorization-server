@@ -10,20 +10,20 @@ service AuthorizationServer {
   // RegisterClient registers new client
   rpc RegisterClient(RegisterClientRequest) returns (RegisterClientResponse) {
     option (google.api.http) = {
-      post: "/register",
+      post: "/authorization/register",
       body: "*"
     };
   }
 
   rpc GetAuthorizationCode(GetAuthorizationCodeRequest) returns (GetAuthorizationCodeResponse) {
     option (google.api.http) = {
-      get: "/auth"
+      get: "/authorization/auth"
     };
   }
 
   rpc GetAccessToken(GetAccessTokenRequest) returns (GetAccessTokenResponse) {
     option (google.api.http) = {
-      post: "/token"
+      post: "/authrization/token"
     };
   }
 }
@@ -40,8 +40,8 @@ message RegisterClientResponse {
 }
 
 enum ResponseType {
-  RESPONSE_TYPE_CODE = 0;
-  RESPONSE_TYPE_TOKEN = 1;
+  code = 0;
+  token = 1;
 }
 
 message GetAuthorizationCodeRequest {
@@ -60,8 +60,8 @@ message GetAuthorizationCodeResponse {
 }
 
 enum GrantType {
-  GRANT_TYPE_AUTHORIZATION_CODE = 0;
-  GRANT_TYPE_REFRESH_TOKEN = 1;
+  authorization_code = 0;
+  refresh_token = 1;
 }
 
 message GetAccessTokenRequest {

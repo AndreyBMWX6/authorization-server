@@ -151,7 +151,7 @@ func RegisterAuthorizationServerHandlerServer(ctx context.Context, mux *runtime.
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/authorization_server.AuthorizationServer/RegisterClient", runtime.WithHTTPPathPattern("/register"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/authorization_server.AuthorizationServer/RegisterClient", runtime.WithHTTPPathPattern("/authorization/register"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -176,7 +176,7 @@ func RegisterAuthorizationServerHandlerServer(ctx context.Context, mux *runtime.
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/authorization_server.AuthorizationServer/GetAuthorizationCode", runtime.WithHTTPPathPattern("/auth"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/authorization_server.AuthorizationServer/GetAuthorizationCode", runtime.WithHTTPPathPattern("/authorization/auth"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -201,7 +201,7 @@ func RegisterAuthorizationServerHandlerServer(ctx context.Context, mux *runtime.
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/authorization_server.AuthorizationServer/GetAccessToken", runtime.WithHTTPPathPattern("/token"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/authorization_server.AuthorizationServer/GetAccessToken", runtime.WithHTTPPathPattern("/authrization/token"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -265,7 +265,7 @@ func RegisterAuthorizationServerHandlerClient(ctx context.Context, mux *runtime.
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/authorization_server.AuthorizationServer/RegisterClient", runtime.WithHTTPPathPattern("/register"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/authorization_server.AuthorizationServer/RegisterClient", runtime.WithHTTPPathPattern("/authorization/register"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -287,7 +287,7 @@ func RegisterAuthorizationServerHandlerClient(ctx context.Context, mux *runtime.
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/authorization_server.AuthorizationServer/GetAuthorizationCode", runtime.WithHTTPPathPattern("/auth"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/authorization_server.AuthorizationServer/GetAuthorizationCode", runtime.WithHTTPPathPattern("/authorization/auth"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -309,7 +309,7 @@ func RegisterAuthorizationServerHandlerClient(ctx context.Context, mux *runtime.
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/authorization_server.AuthorizationServer/GetAccessToken", runtime.WithHTTPPathPattern("/token"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/authorization_server.AuthorizationServer/GetAccessToken", runtime.WithHTTPPathPattern("/authrization/token"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -329,11 +329,11 @@ func RegisterAuthorizationServerHandlerClient(ctx context.Context, mux *runtime.
 }
 
 var (
-	pattern_AuthorizationServer_RegisterClient_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"register"}, ""))
+	pattern_AuthorizationServer_RegisterClient_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"authorization", "register"}, ""))
 
-	pattern_AuthorizationServer_GetAuthorizationCode_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"auth"}, ""))
+	pattern_AuthorizationServer_GetAuthorizationCode_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"authorization", "auth"}, ""))
 
-	pattern_AuthorizationServer_GetAccessToken_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"token"}, ""))
+	pattern_AuthorizationServer_GetAccessToken_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"authrization", "token"}, ""))
 )
 
 var (

@@ -5,7 +5,6 @@ import (
 
 	"authorization-server/internal/pkg/domain"
 	validation "github.com/go-ozzo/ozzo-validation/v4"
-	"github.com/go-ozzo/ozzo-validation/v4/is"
 	"github.com/pkg/errors"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -26,7 +25,7 @@ func (i *Implementation) RegisterClient(ctx context.Context, req *desc.RegisterC
 	}
 
 	return &desc.RegisterClientResponse{
-		ClientId:     client.ID,
+		ClientId:     client.ID.String(),
 		ClientSecret: client.Secret,
 	}, nil
 }
@@ -40,18 +39,18 @@ func validateRegisterClientRequest(ctx context.Context, req *desc.RegisterClient
 		req,
 		validation.Field(&req.Name, validation.Required),
 		//todo: проверить как работает с https
-		validation.Field(&req.Url, is.URL),
+		//todo: return
+		//validation.Field(&req.Url, is.URL),
 		//todo: проверить, как работает
-		validation.Field(&req.RedirectUri, is.RequestURI),
+		//todo: return
+		//validation.Field(&req.RedirectUri, is.RequestURI),
 	)
 }
 
 func mapClientToDomain(req *desc.RegisterClientRequest) *domain.Client {
 	return &domain.Client{
-		ID:          "",
 		Name:        req.GetName(),
 		URL:         req.GetUrl(),
 		RedirectURI: req.GetRedirectUri(),
-		Secret:      "",
 	}
 }

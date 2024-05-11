@@ -6,11 +6,16 @@ import (
 	"net/http"
 )
 
-func (a *App) Run(ctx context.Context, service Service) error {
+func (a *App) Run(ctx context.Context, services ...Service) error {
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()
 
-	desc := service.GetDescription()
+	descs := make([]ServiceDesc, 0, len(services))
+	for _, svc := range services {
+		descs = append(descs, svc.GetDescription())
+	}
+
+	desc := NewCompoundServiceDesc(descs...)
 	a.desc = desc
 
 	a.initGRPC()

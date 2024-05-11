@@ -161,3 +161,7 @@ func NewGatewayMux(desc ServiceDesc, cr chi.Router) (*runtime.ServeMux, error) {
 
 	return mux, nil
 }
+
+func (a *App) PublicServer() chi.Router {
+	return a.publicServer
+}

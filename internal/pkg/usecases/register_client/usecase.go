@@ -24,12 +24,12 @@ func New(clientsRepo ClientsRepository) *UseCase {
 }
 
 func (u *UseCase) Register(ctx context.Context, client *domain.Client) (*domain.Client, error) {
-	client.ID = uuid.New().String()
-
+	client.ID = uuid.New()
 	secret, err := password.Generate(64, 10, 10, false, true)
 	if err != nil {
 		return nil, errors.Wrap(err, "generate client secret")
 	}
+	// todo: hash + salt secret
 	client.Secret = secret
 
 	err = u.clientsRepo.InsertClient(ctx, *client)
