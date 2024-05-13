@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -11,6 +12,8 @@ import (
 	"authorization-server/internal/app/scratch"
 	"authorization-server/internal/config"
 )
+
+//todo: add tls to enpoints with codes, tokens and credentials
 
 func main() {
 	ctx := context.Background()
@@ -31,11 +34,13 @@ func main() {
 	// custom http without grpc
 	a.PublicServer().Get("/auth/*", authorizationServ.GetAllowAccessPage)
 	a.PublicServer().Get("/auth", func(w http.ResponseWriter, r *http.Request) {
-		http.Redirect(w, r, "/auth/", http.StatusMovedPermanently)
+		url := fmt.Sprintf("/auth/?%s", r.URL.RawQuery)
+		http.Redirect(w, r, url, http.StatusMovedPermanently)
 	})
 	a.PublicServer().Get("/login/*", authenticationServ.GetLoginPage)
 	a.PublicServer().Get("/login", func(w http.ResponseWriter, r *http.Request) {
-		http.Redirect(w, r, "/login/", http.StatusMovedPermanently)
+		url := fmt.Sprintf("/login/?%s", r.URL.RawQuery)
+		http.Redirect(w, r, url, http.StatusMovedPermanently)
 	})
 
 	if err := a.Run(context.Background(), authorizationServ, authenticationServ); err != nil {

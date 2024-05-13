@@ -40,10 +40,11 @@
             "required": false,
             "type": "string",
             "enum": [
+              "response_type_unknown",
               "code",
               "token"
             ],
-            "default": "code"
+            "default": "response_type_unknown"
           },
           {
             "name": "clientId",
@@ -133,10 +134,11 @@
             "required": false,
             "type": "string",
             "enum": [
+              "grant_type_unknown",
               "authorization_code",
               "refresh_token"
             ],
-            "default": "authorization_code"
+            "default": "grant_type_unknown"
           },
           {
             "name": "code",
@@ -218,10 +220,11 @@
     "authorization_serverGrantType": {
       "type": "string",
       "enum": [
+        "grant_type_unknown",
         "authorization_code",
         "refresh_token"
       ],
-      "default": "authorization_code"
+      "default": "grant_type_unknown"
     },
     "authorization_serverRegisterClientRequest": {
       "type": "object",
@@ -251,10 +254,11 @@
     "authorization_serverResponseType": {
       "type": "string",
       "enum": [
+        "response_type_unknown",
         "code",
         "token"
       ],
-      "default": "code"
+      "default": "response_type_unknown"
     },
     "protobufAny": {
       "type": "object",

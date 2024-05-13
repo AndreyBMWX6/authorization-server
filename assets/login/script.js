@@ -11,14 +11,21 @@ loginBtn.addEventListener('click', async (e) => {
         errorMsg.style.opacity = 1;
     }
 
+    let authURL = 'http://localhost:7000/auth'
+
+    // get query params from cookie to pass it if login succeeds
+    const params = getCookie("params")
+    if (params !== "") {
+        document.cookie = `${params}`
+    }
+
     try {
         const response = await loginUser(login, password);
         const jwt = response['jwt']
 
         // Set JWT token as cookie
         document.cookie = `jwt=Bearer ${jwt}; path=/`;
-
-        window.location.href = 'http://localhost:7000/auth';
+        window.location.href = authURL
     } catch (error) {
         console.error(error)
     }
@@ -39,4 +46,10 @@ async function loginUser(login, password) {
     }
 
     return await response.json();
+}
+
+function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length > 1) return parts[1].split(';').shift();
 }
