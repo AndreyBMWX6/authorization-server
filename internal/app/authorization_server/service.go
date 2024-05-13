@@ -7,6 +7,7 @@ import (
 	"authorization-server/internal/app/scratch"
 	"authorization-server/internal/pkg/domain"
 	"authorization-server/internal/pkg/repositories"
+	getAuthorizationCode "authorization-server/internal/pkg/usecases/get_authorization_code"
 	getUser "authorization-server/internal/pkg/usecases/get_user"
 	registerClient "authorization-server/internal/pkg/usecases/register_client"
 	desc "authorization-server/pkg/api/authorization_server"
@@ -17,6 +18,7 @@ type Implementation struct {
 	desc.UnimplementedAuthorizationServerServer
 	getUserUseCase        GetUserUseCase
 	registerClientUseCase RegisterClientUseCase
+	getAuthorizationCode  GetAuthorizationCodeUseCase
 	fileServer            http.Handler
 }
 
@@ -27,6 +29,10 @@ func NewAuthorizationServer(db *sqlx.DB, fileServer http.Handler) *Implementatio
 		),
 		registerClientUseCase: registerClient.New(
 			repositories.NewClientsRepository(db),
+		),
+		getAuthorizationCode: getAuthorizationCode.New(
+			repositories.NewClientsRepository(db),
+			repositories.NewAuthorizationCodesRepository(db),
 		),
 		fileServer: fileServer,
 	}
@@ -42,4 +48,8 @@ type GetUserUseCase interface {
 
 type RegisterClientUseCase interface {
 	Register(ctx context.Context, client *domain.Client) (*domain.Client, error)
+}
+
+type GetAuthorizationCodeUseCase interface {
+	GetCode(ctx context.Context, client *domain.Client, scope *string) (string, error)
 }

@@ -5,7 +5,8 @@ import (
 )
 
 const (
-	JWTSecretKey = "jwt_secret"
+	JWTSecretKey    = "jwt_secret"
+	ClientSecretKey = "client_secret"
 )
 
 // todo: rewrite to vault storage
@@ -20,6 +21,7 @@ var provider = secretProvider{
 func init() {
 	// define secret values in this package in secrets.go file
 	provider.m[JWTSecretKey] = jwtSecretValue
+	provider.m[ClientSecretKey] = clientSecretValue
 }
 
 func GetValue(ctx context.Context, key string) (interface{}, error) {

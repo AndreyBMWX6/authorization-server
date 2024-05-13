@@ -110,7 +110,7 @@
         ]
       }
     },
-    "/authrization/token": {
+    "/authorization/token": {
       "post": {
         "operationId": "AuthorizationServer_GetAccessToken",
         "responses": {

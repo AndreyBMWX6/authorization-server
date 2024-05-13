@@ -4,8 +4,13 @@ export BUF_BIN=$(GOBIN)/buf
 
 LOCAL_DB_NAME:=authorization-server
 
-run:
-	go run ./cmd
+run: run-auth run-client
+
+run-auth:
+	go run ./cmd/authorization_server
+
+run-client:
+	go run ./cmd/oauth2_client
 
 generate: bin-deps deps vendor-proto
 	$(BUF_BIN) generate --path=./api/authorization_server

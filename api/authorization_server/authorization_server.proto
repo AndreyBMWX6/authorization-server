@@ -23,7 +23,7 @@ service AuthorizationServer {
 
   rpc GetAccessToken(GetAccessTokenRequest) returns (GetAccessTokenResponse) {
     option (google.api.http) = {
-      post: "/authrization/token"
+      post: "/authorization/token"
     };
   }
 }

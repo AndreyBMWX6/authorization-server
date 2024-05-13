@@ -1,6 +1,6 @@
 module authorization-server
 
-go 1.21.4
+go 1.22.0
 
 require (
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
@@ -19,6 +19,7 @@ require (
 	github.com/sethvargo/go-password v0.2.0
 	github.com/swaggo/http-swagger v1.2.5
 	golang.org/x/crypto v0.23.0
+	golang.org/x/oauth2 v0.20.0
 	google.golang.org/genproto v0.0.0-20220805133916-01dd62135a58
 	google.golang.org/grpc v1.50.1
 	google.golang.org/protobuf v1.28.1

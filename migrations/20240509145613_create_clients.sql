@@ -2,10 +2,10 @@
 -- +goose StatementBegin
 CREATE TABLE clients (
     id           uuid PRIMARY KEY,
-    name         TEXT NOT NULL,
-    url          TEXT NOT NULL,
-    redirect_uri TEXT NOT NULL,
-    secret       TEXT NOT NULL
+    name         text NOT NULL,
+    url          text NOT NULL,
+    redirect_uri text NOT NULL,
+    secret       text NOT NULL
 );
 -- +goose StatementEnd
 

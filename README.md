@@ -1,6 +1,6 @@
 # authorization-server
 
-Authorization server used in OAuth 2.0 standard.
+Authorization server used in OAuth 2.0 standard. With simple ouath2 client example provided.
 
 ## run:
 Install binary dependencies using:
@@ -23,7 +23,16 @@ make db-up
 ```
 NOTE: make sure you have installed docker-compose and started your docker soket.
 
-After db start you can run authorization server:
+After db start you can run authorization server and client:
 ```shell
 make run
+```
+
+You also can run them separately by using:
+```shell
+make run-auth
+```
+and 
+```shell
+make run-client
 ```
