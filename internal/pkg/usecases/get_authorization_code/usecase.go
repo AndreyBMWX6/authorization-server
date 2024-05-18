@@ -60,7 +60,7 @@ func (u *UseCase) GetCode(ctx context.Context, client *domain.Client, scope *str
 		ClientID:    client.ID,
 		RedirectURI: client.RedirectURI,
 		// todo: move expiration time to config
-		ExpirationTime: time.Now().Add(time.Minute * 5),
+		ExpirationTime: time.Now().In(time.UTC).Add(time.Minute * 5),
 		Used:           false,
 	}
 

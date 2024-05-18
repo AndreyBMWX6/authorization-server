@@ -21,6 +21,7 @@ type authorizationCodesTable struct {
 	ClientID       postgres.ColumnString
 	RedirectURI    postgres.ColumnString
 	ExpirationTime postgres.ColumnTimestampz
+	Scope          postgres.ColumnString
 	Used           postgres.ColumnBool
 
 	AllColumns     postgres.ColumnList
@@ -66,9 +67,10 @@ func newAuthorizationCodesTableImpl(schemaName, tableName, alias string) authori
 		ClientIDColumn       = postgres.StringColumn("client_id")
 		RedirectURIColumn    = postgres.StringColumn("redirect_uri")
 		ExpirationTimeColumn = postgres.TimestampzColumn("expiration_time")
+		ScopeColumn          = postgres.StringColumn("scope")
 		UsedColumn           = postgres.BoolColumn("used")
-		allColumns           = postgres.ColumnList{CodeColumn, ClientIDColumn, RedirectURIColumn, ExpirationTimeColumn, UsedColumn}
-		mutableColumns       = postgres.ColumnList{ClientIDColumn, RedirectURIColumn, ExpirationTimeColumn, UsedColumn}
+		allColumns           = postgres.ColumnList{CodeColumn, ClientIDColumn, RedirectURIColumn, ExpirationTimeColumn, ScopeColumn, UsedColumn}
+		mutableColumns       = postgres.ColumnList{ClientIDColumn, RedirectURIColumn, ExpirationTimeColumn, ScopeColumn, UsedColumn}
 	)
 
 	return authorizationCodesTable{
@@ -79,6 +81,7 @@ func newAuthorizationCodesTableImpl(schemaName, tableName, alias string) authori
 		ClientID:       ClientIDColumn,
 		RedirectURI:    RedirectURIColumn,
 		ExpirationTime: ExpirationTimeColumn,
+		Scope:          ScopeColumn,
 		Used:           UsedColumn,
 
 		AllColumns:     allColumns,

@@ -7,6 +7,7 @@ import (
 	"authorization-server/internal/app/scratch"
 	"authorization-server/internal/pkg/domain"
 	"authorization-server/internal/pkg/repositories"
+	getAccessToken "authorization-server/internal/pkg/usecases/get_access_token"
 	getAuthorizationCode "authorization-server/internal/pkg/usecases/get_authorization_code"
 	getUser "authorization-server/internal/pkg/usecases/get_user"
 	registerClient "authorization-server/internal/pkg/usecases/register_client"
@@ -19,6 +20,7 @@ type Implementation struct {
 	getUserUseCase        GetUserUseCase
 	registerClientUseCase RegisterClientUseCase
 	getAuthorizationCode  GetAuthorizationCodeUseCase
+	getAccessToken        GetAccessTokenUseCase
 	fileServer            http.Handler
 }
 
@@ -33,6 +35,11 @@ func NewAuthorizationServer(db *sqlx.DB, fileServer http.Handler) *Implementatio
 		getAuthorizationCode: getAuthorizationCode.New(
 			repositories.NewClientsRepository(db),
 			repositories.NewAuthorizationCodesRepository(db),
+		),
+		getAccessToken: getAccessToken.New(
+			repositories.NewAuthorizationCodesRepository(db),
+			repositories.NewTokensRepository(db),
+			repositories.NewClientsRepository(db),
 		),
 		fileServer: fileServer,
 	}
@@ -52,4 +59,9 @@ type RegisterClientUseCase interface {
 
 type GetAuthorizationCodeUseCase interface {
 	GetCode(ctx context.Context, client *domain.Client, scope *string) (string, error)
+}
+
+type GetAccessTokenUseCase interface {
+	GetTokenByAuthorizationCode(ctx context.Context, authorizationCode string, client domain.Client) (*domain.Token, error)
+	GetTokenByRefreshToken(ctx context.Context, refreshToken string, client domain.Client) (*domain.Token, error)
 }

@@ -12,9 +12,10 @@ import (
 )
 
 type Clients struct {
-	ID          uuid.UUID `sql:"primary_key"`
-	Name        string
-	URL         string
-	RedirectURI string
-	Secret      string
+	ID             uuid.UUID `sql:"primary_key"`
+	Name           string
+	URL            string
+	RedirectURI    string
+	Secret         string
+	IsConfidential bool
 }

@@ -20,12 +20,13 @@ func main() {
 
 	// todo: move values to config
 	client := New(&oauth2.Config{
-		ClientID: "ff76946a-cb94-45e5-b0f3-1bda06059e10",
+		ClientID: "53ab9b19-0d52-49a2-8e34-becf2908781a",
 		// secret is generated for testing purposes
 		ClientSecret: clientSecret,
 		Endpoint: oauth2.Endpoint{
-			AuthURL:  "http://localhost:7000/auth",
-			TokenURL: "http://localhost:7000/authorization/token",
+			AuthURL:   "http://localhost:7000/auth",
+			TokenURL:  "http://localhost:7000/authorization/token",
+			AuthStyle: oauth2.AuthStyleInParams,
 		},
 		RedirectURL: "http://localhost:8000/token",
 		Scopes:      []string{"profiles", "roles"},
@@ -34,6 +35,7 @@ func main() {
 	r := chi.NewRouter()
 	r.Get("/auth", client.authHandler)
 	r.Get("/token", client.tokenHandler)
+	r.Get("/client", client.clientHandler)
 	err = http.ListenAndServe("localhost:8000", r)
 	if err != nil {
 		log.Fatalf("can't run client: %s", err.Error())

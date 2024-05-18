@@ -15,6 +15,7 @@ import (
 	httpSwagger "github.com/swaggo/http-swagger"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
+	"google.golang.org/protobuf/encoding/protojson"
 )
 
 const (
@@ -154,7 +155,17 @@ func (a *App) initSwaggerHandlers() {
 }
 
 func NewGatewayMux(desc ServiceDesc, cr chi.Router) (*runtime.ServeMux, error) {
-	mux := runtime.NewServeMux()
+	mux := runtime.NewServeMux(
+		// setting use proto names option to use snake_case names specified in RFC
+		runtime.WithMarshalerOption(
+			runtime.MIMEWildcard,
+			&runtime.JSONPb{
+				MarshalOptions: protojson.MarshalOptions{
+					UseProtoNames: true,
+				},
+			},
+		),
+	)
 	if err := mountHandlersFromSwagger(desc, cr, mux); err != nil {
 		return nil, errors.Wrap(err, "mount swagger handlers")
 	}

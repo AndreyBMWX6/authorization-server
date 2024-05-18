@@ -6,6 +6,7 @@ CREATE TABLE authorization_codes
     client_id       uuid               NOT NULL,
     redirect_uri    text               NOT NULL,
     expiration_time timestamptz        NOT NULL,
+    scope           text               NOT NULL,
     used            bool DEFAULT false NOT NULL
 );
 -- +goose StatementEnd

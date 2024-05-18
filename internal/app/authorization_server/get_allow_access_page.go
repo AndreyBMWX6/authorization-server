@@ -9,7 +9,7 @@ import (
 	"time"
 
 	"authorization-server/internal/config/secret"
-	"authorization-server/internal/pkg/claims"
+	authJwt "authorization-server/internal/pkg/jwt"
 	"authorization-server/internal/pkg/utils"
 	desc "authorization-server/pkg/api/authorization_server"
 	"github.com/dgrijalva/jwt-go"
@@ -66,13 +66,7 @@ func (i *Implementation) GetAllowAccessPage(w http.ResponseWriter, r *http.Reque
 		return
 	}
 
-	c, ok := jwtToken.Claims.(jwt.MapClaims)
-	if !ok {
-		err = errors.New("cast claims to map claims")
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-	}
-
-	expiredTime, err := claims.GetExpiredTime(c)
+	expiredTime, err := authJwt.GetExpiredTime(jwtToken)
 	if err != nil {
 		err = errors.Wrap(err, "get expired time from claims")
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -83,7 +77,7 @@ func (i *Implementation) GetAllowAccessPage(w http.ResponseWriter, r *http.Reque
 		return
 	}
 
-	login, err := claims.GetLogin(c)
+	login, err := authJwt.GetLogin(jwtToken)
 	if err != nil {
 		err = errors.Wrap(err, "get login from claims")
 		http.Error(w, err.Error(), http.StatusInternalServerError)

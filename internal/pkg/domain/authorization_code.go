@@ -11,5 +11,6 @@ type AuthorizationCode struct {
 	ClientID       uuid.UUID
 	RedirectURI    string
 	ExpirationTime time.Time
+	Scope          string
 	Used           bool
 }

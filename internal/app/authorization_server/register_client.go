@@ -19,6 +19,8 @@ func (i *Implementation) RegisterClient(ctx context.Context, req *desc.RegisterC
 	}
 
 	client := mapClientToDomain(req)
+	//todo: implement flow for public clients
+	client.IsConfidential = true
 	client, err := i.registerClientUseCase.Register(ctx, client)
 	if err != nil {
 		return nil, errors.Wrap(err, "register client")

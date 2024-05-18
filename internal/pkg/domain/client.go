@@ -5,9 +5,10 @@ import (
 )
 
 type Client struct {
-	ID          uuid.UUID
-	Name        string
-	URL         string
-	RedirectURI string
-	Secret      string
+	ID             uuid.UUID
+	Name           string
+	URL            string
+	RedirectURI    string
+	Secret         string
+	IsConfidential bool
 }

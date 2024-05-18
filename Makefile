@@ -31,6 +31,10 @@ db-create:
 db-up:
 	goose -dir migrations postgres "postgres://postgres:postgres@localhost:5432/${LOCAL_DB_NAME}?sslmode=disable" up
 
+# target for inserting in db test data
+db-init:
+	psql -U postgres -d $(LOCAL_DB_NAME) -a -f init.sql
+
 jet:
 	$(GOBIN)/jet -dsn "postgres://postgres:postgres@localhost:5432/${LOCAL_DB_NAME}?sslmode=disable" -path=./internal/generated -ignore-tables=goose_db_version
 

@@ -12,5 +12,6 @@ package table
 func UseSchema(schema string) {
 	AuthorizationCodes = AuthorizationCodes.FromSchema(schema)
 	Clients = Clients.FromSchema(schema)
+	Tokens = Tokens.FromSchema(schema)
 	Users = Users.FromSchema(schema)
 }

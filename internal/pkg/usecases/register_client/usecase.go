@@ -7,6 +7,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/pkg/errors"
 	"github.com/sethvargo/go-password/password"
+	"golang.org/x/crypto/bcrypt"
 )
 
 type ClientsRepository interface {
@@ -29,13 +30,17 @@ func (u *UseCase) Register(ctx context.Context, client *domain.Client) (*domain.
 	if err != nil {
 		return nil, errors.Wrap(err, "generate client secret")
 	}
-	// todo: hash + salt secret
-	client.Secret = secret
+	saltedSecret, err := bcrypt.GenerateFromPassword([]byte(secret), bcrypt.DefaultCost)
+	if err != nil {
+		return nil, errors.Wrap(err, "encrypt client secret")
+	}
+	client.Secret = string(saltedSecret)
 
 	err = u.clientsRepo.InsertClient(ctx, *client)
 	if err != nil {
 		return nil, errors.Wrap(err, "insert client")
 	}
 
+	client.Secret = secret
 	return client, nil
 }

@@ -5,8 +5,8 @@ import (
 	"encoding/base64"
 	"fmt"
 	"io"
-	"log"
 	"net/http"
+	"strings"
 
 	"golang.org/x/oauth2"
 )
@@ -22,6 +22,8 @@ type OauthClient struct {
 	cfg *oauth2.Config
 	// verifiers stores verifying states for different sessions
 	verifiers map[string]States
+
+	client *http.Client
 }
 
 func New(cfg *oauth2.Config) *OauthClient {
@@ -59,12 +61,13 @@ func (c *OauthClient) authHandler(w http.ResponseWriter, r *http.Request) {
 	authUrl := c.cfg.AuthCodeURL(encodedState, oauth2.AccessTypeOffline, oauth2.S256ChallengeOption(pkce))
 	resp, err := http.Get(authUrl)
 	if err != nil {
-		log.Fatalf("get auth code: %s", err.Error())
+		http.Error(w, "get auth code", http.StatusInternalServerError)
+		return
 	}
 
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
-		log.Fatalln(err)
+		http.Error(w, "read body", http.StatusInternalServerError)
 	}
 
 	http.SetCookie(w, &http.Cookie{Name: "params", Value: resp.Request.URL.RawQuery})
@@ -94,13 +97,17 @@ func (c *OauthClient) tokenHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	verifier, ok := c.verifiers[string(sessionID)]
 	if !ok {
-		http.Error(w, fmt.Sprintf("no verifier found for session: %s", sessionID), http.StatusBadRequest)
+		http.Error(w, "no verifier found for session", http.StatusBadRequest)
 		return
 	}
 
 	state := r.URL.Query().Get("state")
+	// idk why when reading state from req params '+' is replaced with ' '
+	// replacing back
+	state = strings.Replace(state, " ", "+", -1)
 	if state != verifier.state {
 		http.Error(w, "wrong state", http.StatusBadRequest)
+		return
 	}
 
 	authorizationCode := r.URL.Query().Get("code")
@@ -111,10 +118,30 @@ func (c *OauthClient) tokenHandler(w http.ResponseWriter, r *http.Request) {
 
 	token, err := c.cfg.Exchange(ctx, authorizationCode, oauth2.VerifierOption(verifier.pkce))
 	if err != nil {
-		log.Fatalf("get access token: %s", err.Error())
+		http.Error(w, fmt.Sprintf("exchange authorization code to access token code: %s", err.Error()), http.StatusInternalServerError)
+		return
 	}
 
-	client := c.cfg.Client(ctx, token)
-	_ = client
-	// todo: make requests
+	c.client = c.cfg.Client(ctx, token)
+}
+
+func (c *OauthClient) clientHandler(w http.ResponseWriter, r *http.Request) {
+	if c.client == nil {
+		http.Error(w, "no client to make req", http.StatusInternalServerError)
+		return
+	}
+
+	//todo: move resource server url to config
+	resp, err := c.client.Get("http://localhost:9000/ping")
+	if err != nil {
+		http.Error(w, "get auth code", http.StatusInternalServerError)
+		return
+	}
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		http.Error(w, "read body", http.StatusInternalServerError)
+	}
+
+	_, _ = w.Write(body)
 }

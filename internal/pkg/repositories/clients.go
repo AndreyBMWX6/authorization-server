@@ -53,20 +53,22 @@ func (r *ClientsRepository) GetClient(ctx context.Context, id uuid.UUID) (*domai
 
 func mapClientToModel(client domain.Client) model.Clients {
 	return model.Clients{
-		ID:          client.ID,
-		Name:        client.Name,
-		URL:         client.URL,
-		RedirectURI: client.RedirectURI,
-		Secret:      client.Secret,
+		ID:             client.ID,
+		Name:           client.Name,
+		URL:            client.URL,
+		RedirectURI:    client.RedirectURI,
+		Secret:         client.Secret,
+		IsConfidential: client.IsConfidential,
 	}
 }
 
 func mapClientToDomain(client model.Clients) *domain.Client {
 	return &domain.Client{
-		ID:          client.ID,
-		Name:        client.Name,
-		URL:         client.URL,
-		RedirectURI: client.RedirectURI,
-		Secret:      client.Secret,
+		ID:             client.ID,
+		Name:           client.Name,
+		URL:            client.URL,
+		RedirectURI:    client.RedirectURI,
+		Secret:         client.Secret,
+		IsConfidential: client.IsConfidential,
 	}
 }

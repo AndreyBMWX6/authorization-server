@@ -17,11 +17,12 @@ type clientsTable struct {
 	postgres.Table
 
 	// Columns
-	ID          postgres.ColumnString
-	Name        postgres.ColumnString
-	URL         postgres.ColumnString
-	RedirectURI postgres.ColumnString
-	Secret      postgres.ColumnString
+	ID             postgres.ColumnString
+	Name           postgres.ColumnString
+	URL            postgres.ColumnString
+	RedirectURI    postgres.ColumnString
+	Secret         postgres.ColumnString
+	IsConfidential postgres.ColumnBool
 
 	AllColumns     postgres.ColumnList
 	MutableColumns postgres.ColumnList
@@ -62,24 +63,26 @@ func newClientsTable(schemaName, tableName, alias string) *ClientsTable {
 
 func newClientsTableImpl(schemaName, tableName, alias string) clientsTable {
 	var (
-		IDColumn          = postgres.StringColumn("id")
-		NameColumn        = postgres.StringColumn("name")
-		URLColumn         = postgres.StringColumn("url")
-		RedirectURIColumn = postgres.StringColumn("redirect_uri")
-		SecretColumn      = postgres.StringColumn("secret")
-		allColumns        = postgres.ColumnList{IDColumn, NameColumn, URLColumn, RedirectURIColumn, SecretColumn}
-		mutableColumns    = postgres.ColumnList{NameColumn, URLColumn, RedirectURIColumn, SecretColumn}
+		IDColumn             = postgres.StringColumn("id")
+		NameColumn           = postgres.StringColumn("name")
+		URLColumn            = postgres.StringColumn("url")
+		RedirectURIColumn    = postgres.StringColumn("redirect_uri")
+		SecretColumn         = postgres.StringColumn("secret")
+		IsConfidentialColumn = postgres.BoolColumn("is_confidential")
+		allColumns           = postgres.ColumnList{IDColumn, NameColumn, URLColumn, RedirectURIColumn, SecretColumn, IsConfidentialColumn}
+		mutableColumns       = postgres.ColumnList{NameColumn, URLColumn, RedirectURIColumn, SecretColumn, IsConfidentialColumn}
 	)
 
 	return clientsTable{
 		Table: postgres.NewTable(schemaName, tableName, alias, allColumns...),
 
 		//Columns
-		ID:          IDColumn,
-		Name:        NameColumn,
-		URL:         URLColumn,
-		RedirectURI: RedirectURIColumn,
-		Secret:      SecretColumn,
+		ID:             IDColumn,
+		Name:           NameColumn,
+		URL:            URLColumn,
+		RedirectURI:    RedirectURIColumn,
+		Secret:         SecretColumn,
+		IsConfidential: IsConfidentialColumn,
 
 		AllColumns:     allColumns,
 		MutableColumns: mutableColumns,
