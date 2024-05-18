@@ -11,14 +11,26 @@ import (
 	authorizationServer "authorization-server/internal/app/authorization_server"
 	"authorization-server/internal/app/scratch"
 	"authorization-server/internal/config"
+	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
+	"google.golang.org/protobuf/encoding/protojson"
 )
-
-//todo: add tls to enpoints with codes, tokens and credentials
 
 func main() {
 	ctx := context.Background()
 
-	a, err := scratch.New()
+	a, err := scratch.New(
+		scratch.WithServeMuxOptions(
+			// setting use proto names option to use snake_case names specified in RFC
+			runtime.WithMarshalerOption(
+				runtime.MIMEWildcard,
+				&runtime.JSONPb{
+					MarshalOptions: protojson.MarshalOptions{
+						UseProtoNames: true,
+					},
+				},
+			),
+		),
+	)
 	if err != nil {
 		log.Fatalf("can't create app: %s", err.Error())
 	}

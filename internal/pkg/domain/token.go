@@ -13,9 +13,10 @@ const (
 )
 
 type Token struct {
-	AccessToken string
-	Type        TokenType
-	CreatedAt   time.Time
+	AccessToken       string
+	AuthorizationCode string
+	Type              TokenType
+	CreatedAt         time.Time
 	// the lifetime in seconds of the access token
 	ExpiresIn    time.Duration
 	RefreshToken *string

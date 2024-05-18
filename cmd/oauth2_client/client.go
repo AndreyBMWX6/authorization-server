@@ -111,6 +111,7 @@ func (c *OauthClient) tokenHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	authorizationCode := r.URL.Query().Get("code")
+	authorizationCode = strings.Replace(authorizationCode, " ", "+", -1)
 	if authorizationCode == "" {
 		http.Error(w, "no authorization code", http.StatusInternalServerError)
 		return

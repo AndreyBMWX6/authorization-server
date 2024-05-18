@@ -17,12 +17,13 @@ type tokensTable struct {
 	postgres.Table
 
 	// Columns
-	AccessToken  postgres.ColumnString
-	Type         postgres.ColumnString
-	CreatedAt    postgres.ColumnTimestampz
-	ExpiresIn    postgres.ColumnInteger
-	RefreshToken postgres.ColumnString
-	Scope        postgres.ColumnString
+	AccessToken       postgres.ColumnString
+	AuthorizationCode postgres.ColumnString
+	Type              postgres.ColumnString
+	CreatedAt         postgres.ColumnTimestampz
+	ExpiresIn         postgres.ColumnInteger
+	RefreshToken      postgres.ColumnString
+	Scope             postgres.ColumnString
 
 	AllColumns     postgres.ColumnList
 	MutableColumns postgres.ColumnList
@@ -63,26 +64,28 @@ func newTokensTable(schemaName, tableName, alias string) *TokensTable {
 
 func newTokensTableImpl(schemaName, tableName, alias string) tokensTable {
 	var (
-		AccessTokenColumn  = postgres.StringColumn("access_token")
-		TypeColumn         = postgres.StringColumn("type")
-		CreatedAtColumn    = postgres.TimestampzColumn("created_at")
-		ExpiresInColumn    = postgres.IntegerColumn("expires_in")
-		RefreshTokenColumn = postgres.StringColumn("refresh_token")
-		ScopeColumn        = postgres.StringColumn("scope")
-		allColumns         = postgres.ColumnList{AccessTokenColumn, TypeColumn, CreatedAtColumn, ExpiresInColumn, RefreshTokenColumn, ScopeColumn}
-		mutableColumns     = postgres.ColumnList{TypeColumn, CreatedAtColumn, ExpiresInColumn, RefreshTokenColumn, ScopeColumn}
+		AccessTokenColumn       = postgres.StringColumn("access_token")
+		AuthorizationCodeColumn = postgres.StringColumn("authorization_code")
+		TypeColumn              = postgres.StringColumn("type")
+		CreatedAtColumn         = postgres.TimestampzColumn("created_at")
+		ExpiresInColumn         = postgres.IntegerColumn("expires_in")
+		RefreshTokenColumn      = postgres.StringColumn("refresh_token")
+		ScopeColumn             = postgres.StringColumn("scope")
+		allColumns              = postgres.ColumnList{AccessTokenColumn, AuthorizationCodeColumn, TypeColumn, CreatedAtColumn, ExpiresInColumn, RefreshTokenColumn, ScopeColumn}
+		mutableColumns          = postgres.ColumnList{AuthorizationCodeColumn, TypeColumn, CreatedAtColumn, ExpiresInColumn, RefreshTokenColumn, ScopeColumn}
 	)
 
 	return tokensTable{
 		Table: postgres.NewTable(schemaName, tableName, alias, allColumns...),
 
 		//Columns
-		AccessToken:  AccessTokenColumn,
-		Type:         TypeColumn,
-		CreatedAt:    CreatedAtColumn,
-		ExpiresIn:    ExpiresInColumn,
-		RefreshToken: RefreshTokenColumn,
-		Scope:        ScopeColumn,
+		AccessToken:       AccessTokenColumn,
+		AuthorizationCode: AuthorizationCodeColumn,
+		Type:              TypeColumn,
+		CreatedAt:         CreatedAtColumn,
+		ExpiresIn:         ExpiresInColumn,
+		RefreshToken:      RefreshTokenColumn,
+		Scope:             ScopeColumn,
 
 		AllColumns:     allColumns,
 		MutableColumns: mutableColumns,

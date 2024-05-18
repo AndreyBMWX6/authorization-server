@@ -1,15 +1,16 @@
 -- +goose Up
 -- +goose StatementBegin
 CREATE TABLE tokens (
-    access_token  text PRIMARY KEY,
-    type          text        NOT NULL,
-    created_at    timestamptz NOT NULL,
-    expires_in    bigint      NOT NULL,
-    refresh_token text,
-    scope         text
+    access_token       text PRIMARY KEY,
+    authorization_code text        NOT NULL,
+    type               text        NOT NULL,
+    created_at         timestamptz NOT NULL,
+    expires_in         bigint      NOT NULL,
+    refresh_token      text,
+    scope              text
 );
 
---TODO: CREATE INDEX on refresh_token
+--TODO: CREATE INDEX on authorization_code and refresh_token
 
 -- +goose StatementEnd
 

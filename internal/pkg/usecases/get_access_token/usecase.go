@@ -26,6 +26,7 @@ type ClientsRepository interface {
 type TokensRepository interface {
 	UpsertToken(ctx context.Context, token domain.Token) error
 	GetTokenByRefreshToken(ctx context.Context, refreshToken string) (*domain.Token, error)
+	DeleteTokensByCode(ctx context.Context, authorizationCode string) error
 }
 
 type UseCase struct {
@@ -53,7 +54,11 @@ func (u *UseCase) GetTokenByAuthorizationCode(ctx context.Context, authorization
 	}
 
 	if code.Used {
-		//todo: revoke all access tokens issued by this code
+		// if code was already used revoking all issued tokens, return error
+		err = u.tokensRepo.DeleteTokensByCode(ctx, authorizationCode)
+		if err != nil {
+			return nil, errors.Wrap(err, "delete tokens by code")
+		}
 		return nil, ErrUsedAuthorizationCode
 	}
 
@@ -121,11 +126,12 @@ func (u *UseCase) GetTokenByAuthorizationCode(ctx context.Context, authorization
 	//todo: move to config
 	expiresIn := 3600 * time.Second
 	token := domain.Token{
-		AccessToken:  accessToken,
-		Type:         domain.TokenTypeBearer,
-		CreatedAt:    time.Now().In(time.UTC),
-		ExpiresIn:    expiresIn,
-		RefreshToken: &refreshToken,
+		AccessToken:       accessToken,
+		AuthorizationCode: authorizationCode,
+		Type:              domain.TokenTypeBearer,
+		CreatedAt:         time.Now().In(time.UTC),
+		ExpiresIn:         expiresIn,
+		RefreshToken:      &refreshToken,
 	}
 
 	err = u.tokensRepo.UpsertToken(ctx, token)

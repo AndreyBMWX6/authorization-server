@@ -12,10 +12,11 @@ import (
 )
 
 type Tokens struct {
-	AccessToken  string `sql:"primary_key"`
-	Type         string
-	CreatedAt    time.Time
-	ExpiresIn    int64
-	RefreshToken *string
-	Scope        *string
+	AccessToken       string `sql:"primary_key"`
+	AuthorizationCode string
+	Type              string
+	CreatedAt         time.Time
+	ExpiresIn         int64
+	RefreshToken      *string
+	Scope             *string
 }

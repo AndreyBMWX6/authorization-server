@@ -42,6 +42,7 @@ type App struct {
 	publicServer *chi.Mux
 	adminServer  *chi.Mux
 	desc         ServiceDesc
+	opts         *Options
 	//todo: добавить порты
 }
 
@@ -51,8 +52,13 @@ type listeners struct {
 	httpAdmin net.Listener
 }
 
-func New() (*App, error) {
-	a := &App{}
+func New(opts ...Option) (*App, error) {
+	o, err := evaluateOptions(opts)
+	if err != nil {
+		return nil, errors.Wrap(err, "evaluate options")
+	}
+
+	a := &App{opts: o}
 
 	lis, err := newListeners()
 	if err != nil {

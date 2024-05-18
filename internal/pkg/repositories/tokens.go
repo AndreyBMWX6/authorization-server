@@ -56,24 +56,39 @@ func (r *TokensRepository) GetTokenByRefreshToken(ctx context.Context, refreshTo
 	return mapTokenToDomain(m), nil
 }
 
+func (r *TokensRepository) DeleteTokensByCode(ctx context.Context, authorizationCode string) error {
+	stmt := table.Tokens.
+		DELETE().
+		WHERE(table.Tokens.AuthorizationCode.EQ(postgres.String(authorizationCode)))
+
+	_, err := stmt.ExecContext(ctx, r.db)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func mapTokenToModel(token domain.Token) model.Tokens {
 	return model.Tokens{
-		AccessToken:  token.AccessToken,
-		Type:         string(token.Type),
-		CreatedAt:    token.CreatedAt,
-		ExpiresIn:    int64(token.ExpiresIn.Seconds()),
-		RefreshToken: token.RefreshToken,
-		Scope:        token.Scope,
+		AccessToken:       token.AccessToken,
+		AuthorizationCode: token.AuthorizationCode,
+		Type:              string(token.Type),
+		CreatedAt:         token.CreatedAt,
+		ExpiresIn:         int64(token.ExpiresIn.Seconds()),
+		RefreshToken:      token.RefreshToken,
+		Scope:             token.Scope,
 	}
 }
 
 func mapTokenToDomain(token model.Tokens) *domain.Token {
 	return &domain.Token{
-		AccessToken:  token.AccessToken,
-		Type:         domain.TokenType(token.Type),
-		CreatedAt:    token.CreatedAt,
-		ExpiresIn:    time.Second * time.Duration(token.ExpiresIn),
-		RefreshToken: token.RefreshToken,
-		Scope:        token.Scope,
+		AccessToken:       token.AccessToken,
+		AuthorizationCode: token.AuthorizationCode,
+		Type:              domain.TokenType(token.Type),
+		CreatedAt:         token.CreatedAt,
+		ExpiresIn:         time.Second * time.Duration(token.ExpiresIn),
+		RefreshToken:      token.RefreshToken,
+		Scope:             token.Scope,
 	}
 }
