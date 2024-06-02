@@ -3,14 +3,14 @@ package authorization_server
 import (
 	"context"
 
-	"authorization-server/internal/pkg/domain"
 	validation "github.com/go-ozzo/ozzo-validation/v4"
 	"github.com/go-ozzo/ozzo-validation/v4/is"
 	"github.com/google/uuid"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
+	"oauth2/internal/pkg/domain"
 
-	desc "authorization-server/pkg/api/authorization_server"
+	desc "oauth2/pkg/api/authorization_server"
 )
 
 func (i *Implementation) GetAuthorizationCode(ctx context.Context, req *desc.GetAuthorizationCodeRequest) (*desc.GetAuthorizationCodeResponse, error) {

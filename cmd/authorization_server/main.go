@@ -7,12 +7,12 @@ import (
 	"net/http"
 	"os"
 
-	authenticationServer "authorization-server/internal/app/authentication_server"
-	authorizationServer "authorization-server/internal/app/authorization_server"
-	"authorization-server/internal/app/scratch"
-	"authorization-server/internal/config"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"google.golang.org/protobuf/encoding/protojson"
+	authenticationServer "oauth2/internal/app/authentication_server"
+	authorizationServer "oauth2/internal/app/authorization_server"
+	"oauth2/internal/app/scratch"
+	"oauth2/internal/config"
 )
 
 func main() {

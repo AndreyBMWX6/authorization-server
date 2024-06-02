@@ -6,12 +6,12 @@ import (
 	"io"
 	"time"
 
-	"authorization-server/internal/pkg/domain"
-	"authorization-server/internal/pkg/jwt"
-	"authorization-server/internal/pkg/passwords"
 	"github.com/google/uuid"
 	"github.com/pkg/errors"
 	"github.com/samber/lo"
+	"oauth2/internal/pkg/domain"
+	"oauth2/internal/pkg/jwt"
+	"oauth2/internal/pkg/passwords"
 )
 
 type AuthorizationCodesRepository interface {

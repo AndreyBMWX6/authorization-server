@@ -8,12 +8,12 @@ import (
 	"strings"
 	"time"
 
-	"authorization-server/internal/config/secret"
-	authJwt "authorization-server/internal/pkg/jwt"
-	"authorization-server/internal/pkg/utils"
-	desc "authorization-server/pkg/api/authorization_server"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/pkg/errors"
+	"oauth2/internal/config/secret"
+	authJwt "oauth2/internal/pkg/jwt"
+	"oauth2/internal/pkg/utils"
+	desc "oauth2/pkg/api/authorization_server"
 )
 
 const (

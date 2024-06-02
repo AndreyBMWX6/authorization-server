@@ -3,11 +3,11 @@ package register_client
 import (
 	"context"
 
-	"authorization-server/internal/pkg/domain"
 	"github.com/google/uuid"
 	"github.com/pkg/errors"
 	"github.com/sethvargo/go-password/password"
 	"golang.org/x/crypto/bcrypt"
+	"oauth2/internal/pkg/domain"
 )
 
 type ClientsRepository interface {

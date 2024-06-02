@@ -3,10 +3,10 @@ package authenticate_user
 import (
 	"context"
 
-	"authorization-server/internal/pkg/domain"
-	"authorization-server/internal/pkg/jwt"
-	"authorization-server/internal/pkg/passwords"
 	"github.com/pkg/errors"
+	"oauth2/internal/pkg/domain"
+	"oauth2/internal/pkg/jwt"
+	"oauth2/internal/pkg/passwords"
 )
 
 type UsersRepository interface {

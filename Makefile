@@ -1,16 +1,22 @@
 export GO111MODULE=on
 export GOBIN=$(CURDIR)/bin
 export BUF_BIN=$(GOBIN)/buf
+# -j3 allows make to run 3 targets simultaneously
+export RUN_ALL_ARGS="-j3"
 
 LOCAL_DB_NAME:=authorization-server
 
-run: run-auth run-client
+run:
+	make $(RUN_ALL_ARGS) run-auth run-client run-res-serv
 
 run-auth:
 	go run ./cmd/authorization_server
 
 run-client:
-	go run ./cmd/oauth2_client
+	go run ./cmd/client
+
+run-res-serv:
+	go run ./cmd/resource_server
 
 generate: bin-deps deps vendor-proto
 	$(BUF_BIN) generate --path=./api/authorization_server

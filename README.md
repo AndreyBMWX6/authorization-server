@@ -1,6 +1,6 @@
-# authorization-server
+# oauth2
 
-Authorization server used in OAuth 2.0 standard. With simple ouath2 client example provided.
+Implementation of OAuth 2.0 standard. Authrization server, simple client and resource server examples.
 
 ## run:
 Install binary dependencies using:

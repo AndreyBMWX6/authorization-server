@@ -4,9 +4,9 @@ import (
 	"context"
 	"time"
 
-	"authorization-server/internal/config/secret"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/pkg/errors"
+	"oauth2/internal/config/secret"
 )
 
 const (

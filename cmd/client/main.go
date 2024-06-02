@@ -5,9 +5,9 @@ import (
 	"log"
 	"net/http"
 
-	"authorization-server/internal/config/secret"
 	"github.com/go-chi/chi/v5"
 	"golang.org/x/oauth2"
+	"oauth2/internal/config/secret"
 )
 
 //todo: add tls

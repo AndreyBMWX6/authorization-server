@@ -1,4 +1,4 @@
-module authorization-server
+module oauth2
 
 go 1.22.0
 
@@ -16,6 +16,7 @@ require (
 	github.com/lib/pq v1.7.0
 	github.com/peterbourgon/mergemap v0.0.1
 	github.com/pkg/errors v0.9.1
+	github.com/samber/lo v1.27.0
 	github.com/sethvargo/go-password v0.2.0
 	github.com/swaggo/http-swagger v1.2.5
 	golang.org/x/crypto v0.23.0
@@ -41,7 +42,6 @@ require (
 	github.com/mitchellh/mapstructure v1.5.0 // indirect
 	github.com/oklog/ulid v1.3.1 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
-	github.com/samber/lo v1.27.0 // indirect
 	github.com/stretchr/testify v1.8.0 // indirect
 	github.com/swaggo/files v1.0.1 // indirect
 	github.com/swaggo/swag v1.8.0 // indirect

@@ -4,15 +4,15 @@ import (
 	"context"
 	"net/http"
 
-	"authorization-server/internal/app/scratch"
-	"authorization-server/internal/pkg/domain"
-	"authorization-server/internal/pkg/repositories"
-	getAccessToken "authorization-server/internal/pkg/usecases/get_access_token"
-	getAuthorizationCode "authorization-server/internal/pkg/usecases/get_authorization_code"
-	getUser "authorization-server/internal/pkg/usecases/get_user"
-	registerClient "authorization-server/internal/pkg/usecases/register_client"
-	desc "authorization-server/pkg/api/authorization_server"
 	"github.com/jmoiron/sqlx"
+	"oauth2/internal/app/scratch"
+	"oauth2/internal/pkg/domain"
+	"oauth2/internal/pkg/repositories"
+	getAccessToken "oauth2/internal/pkg/usecases/get_access_token"
+	getAuthorizationCode "oauth2/internal/pkg/usecases/get_authorization_code"
+	getUser "oauth2/internal/pkg/usecases/get_user"
+	registerClient "oauth2/internal/pkg/usecases/register_client"
+	desc "oauth2/pkg/api/authorization_server"
 )
 
 type Implementation struct {

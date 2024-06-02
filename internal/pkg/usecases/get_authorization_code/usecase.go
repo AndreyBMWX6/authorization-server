@@ -7,9 +7,9 @@ import (
 	"io"
 	"time"
 
-	"authorization-server/internal/pkg/domain"
 	"github.com/google/uuid"
 	"github.com/pkg/errors"
+	"oauth2/internal/pkg/domain"
 )
 
 type ClientsRepository interface {

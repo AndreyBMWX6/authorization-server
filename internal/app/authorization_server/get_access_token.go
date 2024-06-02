@@ -4,14 +4,14 @@ import (
 	"context"
 	"strings"
 
-	"authorization-server/internal/pkg/domain"
 	validation "github.com/go-ozzo/ozzo-validation/v4"
 	"github.com/google/uuid"
 	"github.com/pkg/errors"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
+	"oauth2/internal/pkg/domain"
 
-	desc "authorization-server/pkg/api/authorization_server"
+	desc "oauth2/pkg/api/authorization_server"
 )
 
 func (i *Implementation) GetAccessToken(ctx context.Context, req *desc.GetAccessTokenRequest) (*desc.GetAccessTokenResponse, error) {

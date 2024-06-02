@@ -3,13 +3,13 @@ package repositories
 import (
 	"context"
 
-	"authorization-server/internal/generated/authorization-server/public/model"
-	"authorization-server/internal/generated/authorization-server/public/table"
 	"github.com/go-jet/jet/v2/postgres"
 	"github.com/google/uuid"
+	"oauth2/internal/generated/authorization-server/public/model"
+	"oauth2/internal/generated/authorization-server/public/table"
 
-	"authorization-server/internal/pkg/domain"
 	"github.com/jmoiron/sqlx"
+	"oauth2/internal/pkg/domain"
 )
 
 type ClientsRepository struct {

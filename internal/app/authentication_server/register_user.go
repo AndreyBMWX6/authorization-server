@@ -3,12 +3,12 @@ package authentication_server
 import (
 	"context"
 
-	"authorization-server/internal/pkg/domain"
-	desc "authorization-server/pkg/api/authentication_server"
 	validation "github.com/go-ozzo/ozzo-validation/v4"
 	"github.com/pkg/errors"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
+	"oauth2/internal/pkg/domain"
+	desc "oauth2/pkg/api/authentication_server"
 )
 
 func (i *Implementation) RegisterUser(ctx context.Context, req *desc.RegisterUserRequest) (*desc.RegisterUserResponse, error) {

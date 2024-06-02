@@ -3,8 +3,8 @@ package get_user
 import (
 	"context"
 
-	"authorization-server/internal/pkg/domain"
 	"github.com/pkg/errors"
+	"oauth2/internal/pkg/domain"
 )
 
 type UserRepository interface {

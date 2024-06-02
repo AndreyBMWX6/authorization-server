@@ -4,11 +4,11 @@ import (
 	"context"
 	"time"
 
-	"authorization-server/internal/generated/authorization-server/public/model"
-	"authorization-server/internal/generated/authorization-server/public/table"
-	"authorization-server/internal/pkg/domain"
 	"github.com/go-jet/jet/v2/postgres"
 	"github.com/jmoiron/sqlx"
+	"oauth2/internal/generated/authorization-server/public/model"
+	"oauth2/internal/generated/authorization-server/public/table"
+	"oauth2/internal/pkg/domain"
 )
 
 type TokensRepository struct {

@@ -3,9 +3,9 @@ package register_user
 import (
 	"context"
 
-	"authorization-server/internal/pkg/domain"
 	"github.com/pkg/errors"
 	"golang.org/x/crypto/bcrypt"
+	"oauth2/internal/pkg/domain"
 )
 
 type UsersRepository interface {

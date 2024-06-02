@@ -18,7 +18,7 @@ type States struct {
 	pkce string
 }
 
-type OauthClient struct {
+type Client struct {
 	cfg *oauth2.Config
 	// verifiers stores verifying states for different sessions
 	verifiers map[string]States
@@ -26,14 +26,14 @@ type OauthClient struct {
 	client *http.Client
 }
 
-func New(cfg *oauth2.Config) *OauthClient {
-	return &OauthClient{
+func New(cfg *oauth2.Config) *Client {
+	return &Client{
 		cfg:       cfg,
 		verifiers: make(map[string]States),
 	}
 }
 
-func (c *OauthClient) authHandler(w http.ResponseWriter, r *http.Request) {
+func (c *Client) authHandler(w http.ResponseWriter, r *http.Request) {
 	sessionID := make([]byte, 16)
 	_, err := io.ReadFull(rand.Reader, sessionID)
 	if err != nil {
@@ -76,7 +76,7 @@ func (c *OauthClient) authHandler(w http.ResponseWriter, r *http.Request) {
 	_, _ = w.Write(body)
 }
 
-func (c *OauthClient) tokenHandler(w http.ResponseWriter, r *http.Request) {
+func (c *Client) tokenHandler(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 
 	encodedSessionCookie, err := r.Cookie("sessionID")
@@ -126,7 +126,7 @@ func (c *OauthClient) tokenHandler(w http.ResponseWriter, r *http.Request) {
 	c.client = c.cfg.Client(ctx, token)
 }
 
-func (c *OauthClient) clientHandler(w http.ResponseWriter, r *http.Request) {
+func (c *Client) clientHandler(w http.ResponseWriter, r *http.Request) {
 	if c.client == nil {
 		http.Error(w, "no client to make req", http.StatusInternalServerError)
 		return
