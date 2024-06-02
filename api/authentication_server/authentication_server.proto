@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package authentication_server;
+
+option go_package="github.com/AndreyBMWX6/oauth2/pkg/api/authentication_server;authentication_server";
+
+import "google/api/annotations.proto";
+
+service AuthenticationServer {
+  // RegisterUser registers new user
+  rpc RegisterUser(RegisterUserRequest) returns (RegisterUserResponse) {
+    option (google.api.http) = {
+      post: "/authentication/register",
+      body: "*"
+    };
+  }
+
+  rpc AuthenticateUser(AuthenticateUserRequest) returns (AuthenticateUserResponse) {
+    option (google.api.http) = {
+      post: "/authentication/auth",
+      body: "*"
+    };
+  }
+}
+
+message RegisterUserRequest {
+  string login = 1;
+  string password = 2;
+}
+
+message RegisterUserResponse {}
+
+message AuthenticateUserRequest {
+  string login = 1;
+  string password = 2;
+}
+
+message AuthenticateUserResponse {
+  string jwt = 1;
+}

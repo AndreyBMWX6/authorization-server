@@ -1,0 +1,93 @@
+syntax = "proto3";
+
+package authorization_server;
+
+option go_package="github.com/AndreyBMWX6/oauth2/pkg/api/authorization_server;authorization_server";
+
+import "google/api/annotations.proto";
+
+service AuthorizationServer {
+  // RegisterClient registers new client
+  rpc RegisterClient(RegisterClientRequest) returns (RegisterClientResponse) {
+    option (google.api.http) = {
+      post: "/authorization/register",
+      body: "*"
+    };
+  }
+
+  rpc GetAuthorizationCode(GetAuthorizationCodeRequest) returns (GetAuthorizationCodeResponse) {
+    option (google.api.http) = {
+      get: "/authorization/auth"
+    };
+  }
+
+  rpc GetAccessToken(GetAccessTokenRequest) returns (GetAccessTokenResponse) {
+    option (google.api.http) = {
+      post: "/authorization/token"
+    };
+  }
+}
+
+message RegisterClientRequest {
+  string name = 1;
+  string url = 2;
+  string redirect_uri = 3;
+}
+
+message RegisterClientResponse {
+  string client_id = 1;
+  string client_secret = 2;
+}
+
+enum ResponseType {
+  response_type_unknown = 0;
+  code = 1;
+  token = 2;
+}
+
+message GetAuthorizationCodeRequest {
+  ResponseType response_type = 1;
+  string client_id = 2;
+  optional string redirect_uri = 3;
+  optional string scope = 4;
+  // state recommended to prevent CSRF attacks
+  optional string state = 5;
+}
+
+message GetAuthorizationCodeResponse {
+  string code = 1;
+  // state recommended to prevent CSRF attacks
+  optional string state = 2;
+}
+
+enum GrantType {
+  grant_type_unknown = 0;
+  authorization_code = 1;
+  refresh_token = 2;
+}
+
+message GetAccessTokenRequest {
+  GrantType grant_type = 1;
+  string code = 2;
+  // required if was included in GetAuthorizationCodeRequest
+  // value must be identical to value included in GetAuthorizationCodeRequest
+  optional string redirect_uri = 3;
+  string client_id = 4;
+  // client_secret send if authorizing server-side client
+  optional string client_secret = 5;
+  // refresh_token is required if refresh token grant type specified
+  // allows to get new access token
+  optional string refresh_token = 6;
+}
+
+message GetAccessTokenResponse {
+  string access_token = 1;
+  // bearer/mac/etc.
+  string token_type = 2;
+  // expires_in could be omitted,
+  // but should be provided to client by other means or be documented as default value
+  int64 expires_in = 3;
+  optional string refresh_token = 4;
+  // scope is optional if identical to the scope requested by the client, otherwise, required
+  optional string scope = 5;
+}

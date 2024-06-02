@@ -1,0 +1,5 @@
+/bin
+/vendor.proto
+/.idea
+secrets.go
+init.sql
